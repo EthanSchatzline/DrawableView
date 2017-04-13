@@ -8,15 +8,21 @@ Drawable View is a Swift framework for a UIView that can be drawn on!
 
 CocoaPods
 
-```pod 'DrawableView'```
+```
+pod 'DrawableView'
+```
 
 Carthage
 
-```github "EthanSchatzline/DrawableView"```
+```
+github "EthanSchatzline/DrawableView"
+```
 
 Swift Package Manager
 
-```TODO```
+```
+TODO
+```
 
 ## Created and maintained by
 
