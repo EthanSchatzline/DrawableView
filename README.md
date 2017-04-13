@@ -26,7 +26,7 @@ TODO
 
 ## Created and maintained by
 
-* **Ethan Schatzline**
+[Ethan Schatzline](https://ethanschatzline.me)
 
 See also the list of [contributors](https://github.com/EthanSchatzline/DrawableView/graphs/contributors) who participated in this project.
 
