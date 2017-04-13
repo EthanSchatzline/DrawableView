@@ -1,5 +1,7 @@
 # DrawableView
 
+[![CocoaPods](https://img.shields.io/cocoapods/v/DrawableView.svg)](https://cocoapods.org/pods/DrawableView)  [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![CocoaPods](https://img.shields.io/cocoapods/dt/DrawableView.svg)](https://cocoapods.org/pods/DrawableView) [![CocoaPods](https://img.shields.io/cocoapods/dm/DrawableView.svg)](https://cocoapods.org/pods/DrawableView)
+
 Drawable View is a Swift framework for a UIView that can be drawn on!
 
 ## Getting Started
