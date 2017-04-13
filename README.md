@@ -4,7 +4,7 @@
 
 Drawable View is a Swift framework for a UIView that can be drawn on!
 
-![](/drawing.jpeg =158x288)
+![](/drawing.jpg =158x288)
 
 ## Getting Started
 
