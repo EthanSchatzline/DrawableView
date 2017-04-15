@@ -21,6 +21,10 @@ class StrokeCollection {
         return strokes.isEmpty
     }
     
+    var lastStroke: Stroke? {
+        return strokes.last
+    }
+    
     var lastPoint: CGPoint? {
         return strokes.last?.points.last
     }
@@ -35,6 +39,8 @@ class StrokeCollection {
     
     func newStroke(initialPoint: CGPoint, brush: Brush) {
         let stroke = Stroke(point: initialPoint, brush: brush)
+        stroke.points.append(initialPoint)
+        stroke.points.append(initialPoint)
         strokes.append(stroke)
         totalPointCount += stroke.points.count
     }

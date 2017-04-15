@@ -14,7 +14,7 @@ public protocol DrawableViewDelegate: class {
 }
 
 private struct Constants {
-    static let BoxScaleFactor: CGFloat = 2.0
+    static let BoxScaleFactor: CGFloat = 20.0
     static let PointsCountThreshold = 500
 }
 
