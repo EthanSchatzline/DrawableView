@@ -143,8 +143,8 @@ extension DrawableView {
     
     private func redrawLayerInBoundingBoxOfLastLine(previousPoint: CGPoint, point: CGPoint, brushWidth: CGFloat) {
         let subPath = CGMutablePath()
-        subPath.move(to: CGPoint(x: previousPoint.x, y: previousPoint.y))
-        subPath.addLine(to: CGPoint(x: point.x, y: point.y))
+        subPath.move(to: previousPoint)
+        subPath.addLine(to: point)
         
         var drawBox = subPath.boundingBox
         drawBox.origin.x -= brushWidth * Constants.BoxScaleFactor
@@ -159,16 +159,19 @@ extension DrawableView {
         guard !strokes.isEmpty else { return }
         
         if let img = previousStrokesImage?.cgImage {
-            // Draw image (flipped)
-            ctx.saveGState()
-            ctx.translateBy(x: 0.0, y: CGFloat(img.height))
-            ctx.scaleBy(x: 1.0, y: -1.0)
-            ctx.draw(img, in: CGRect(x: 0, y: 0, width: CGFloat(img.width), height: CGFloat(img.height)))
-            ctx.restoreGState()
+            drawImageFlipped(image: img, in: ctx)
         }
         
         strokesWaitingForImage?.draw(in: ctx)
         latestStrokes.draw(in: ctx)
+    }
+    
+    fileprivate func drawImageFlipped(image: CGImage, in context: CGContext) {
+        context.saveGState()
+        context.translateBy(x: 0.0, y: CGFloat(image.height))
+        context.scaleBy(x: 1.0, y: -1.0)
+        context.draw(image, in: CGRect(x: 0, y: 0, width: CGFloat(image.width), height: CGFloat(image.height)))
+        context.restoreGState()
     }
 }
 
@@ -180,14 +183,8 @@ extension DrawableView {
         defer { UIGraphicsEndImageContext() }
         guard let context = UIGraphicsGetCurrentContext() else { return nil }
         
-        if let image = image,
-            let cgImage = image.cgImage {
-            // Draw image (flipped)
-            context.saveGState()
-            context.translateBy(x: 0.0, y: image.size.height)
-            context.scaleBy(x: 1.0, y: -1.0)
-            context.draw(cgImage, in: CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height))
-            context.restoreGState()
+        if let cgImage = image?.cgImage {
+            drawImageFlipped(image: cgImage, in: context)
         }
         
         strokes.draw(in: context)

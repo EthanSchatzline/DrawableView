@@ -17,4 +17,22 @@ class Stroke {
         self.points = [point]
         self.brush = brush
     }
+    
+    func drawPath(in ctx: CGContext) {
+        guard let firstPoint = points.first else { return }
+        
+        ctx.setLineCap(.round)
+        ctx.setLineWidth(brush.width)
+        ctx.setStrokeColor(brush.color.withAlphaComponent(brush.transparency).cgColor)
+        ctx.beginPath()
+        
+        var lastPoint = firstPoint
+        for point in points {
+            ctx.move(to: lastPoint)
+            ctx.addLine(to: point)
+            lastPoint = point
+        }
+        
+        ctx.strokePath()
+    }
 }

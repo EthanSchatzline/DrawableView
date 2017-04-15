@@ -52,7 +52,7 @@ class StrokeCollection {
     
     func draw(in context: CGContext) {
         for stroke in strokes {
-            stroke.brush.drawPath(stroke.points, ctx: context)
+            stroke.drawPath(in: context)
         }
     }
     
