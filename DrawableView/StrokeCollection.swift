@@ -40,6 +40,10 @@ class StrokeCollection {
     }
     
     func addPointToLastStroke(_ point: CGPoint) {
+        if let previousPoint = strokes.last?.points.last {
+            let threshold: CGFloat = 1.5
+            if previousPoint.distance(to: point) <= threshold { return }
+        }
         strokes.last?.points.append(point)
         totalPointCount += 1
     }
