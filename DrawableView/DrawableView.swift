@@ -14,7 +14,7 @@ public protocol DrawableViewDelegate: class {
 }
 
 private struct Constants {
-    static let BoxScaleFactor: CGFloat = 20.0
+    static let BoxScaleFactor: CGFloat = 2.0
     static let PointsCountThreshold = 500
 }
 
@@ -96,7 +96,7 @@ extension DrawableView {
     fileprivate func drawFromTouch(_ touch: UITouch) {
         let point = touch.location(in: self)
         
-        if let previousPoint = strokes.lastPoint, let brush = strokes.lastBrush {
+        if let lastStroke = strokes.lastStroke {
             // Add point to the stroke
             // Also check if it is over the threshold to trigger a UIImage request
             strokes.addPointToLastStroke(point)
@@ -136,16 +136,23 @@ extension DrawableView {
                 createImageAsynchronously(from: strokesToMakeImage, image: previousStrokesImage, size: bounds.size, requestID: requestID, callback: imageCreationBlock)
             }
             
-            redrawLayerInBoundingBoxOfLastLine(previousPoint: previousPoint, point: point, brushWidth: brush.width)
+            redrawLayerInBoundingBox(of: lastStroke)
         }
     }
     
-    private func redrawLayerInBoundingBoxOfLastLine(previousPoint: CGPoint, point: CGPoint, brushWidth: CGFloat) {
+    private func redrawLayerInBoundingBox(of stroke: Stroke) {
+        guard let firstPoint = stroke.points.first else { return }
+        
         let subPath = CGMutablePath()
-        subPath.move(to: previousPoint)
-        subPath.addLine(to: point)
+        var previousPoint = firstPoint
+        for point in stroke.points {
+            subPath.move(to: previousPoint)
+            subPath.addLine(to: point)
+            previousPoint = point
+        }
         
         var drawBox = subPath.boundingBox
+        let brushWidth = stroke.brush.width
         drawBox.origin.x -= brushWidth * Constants.BoxScaleFactor
         drawBox.origin.y -= brushWidth * Constants.BoxScaleFactor
         drawBox.size.width += brushWidth * Constants.BoxScaleFactor * 2
