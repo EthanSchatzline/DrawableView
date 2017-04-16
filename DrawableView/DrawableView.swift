@@ -97,7 +97,7 @@ extension DrawableView {
     fileprivate func drawFromTouch(_ touch: UITouch) {
         let point = touch.location(in: self)
         
-        if let lastStroke = strokes.lastStroke {
+        if let lastStroke = latestStrokes.lastStroke {
             // Add point to the stroke
             // Also check if it is over the threshold to trigger a UIImage request
             strokes.addPointToLastStroke(point)
