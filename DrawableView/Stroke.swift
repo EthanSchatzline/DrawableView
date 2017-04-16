@@ -8,6 +8,10 @@
 
 import UIKit
 
+private struct Constants {
+    static let BrushWidthThreshold: CGFloat = 16.0
+}
+
 class Stroke {
     
     var points: [CGPoint]
@@ -30,9 +34,7 @@ class Stroke {
             let midPoint2Y = (current.y + prev1.y) * 0.5
             let midPoint2 = CGPoint(x: midPoint2X, y: midPoint2Y)
             
-            //let segmentDistance: CGFloat = 2.0
-            //let distance: CGFloat = sqrt(pow(midPoint2.x - midPoint1.x, 2) + pow(midPoint2.y - midPoint1.y, 2))
-            let numberOfSegments: Int = 3//min(128, max(Int(distance / segmentDistance), 32))
+            let numberOfSegments: Int = (brush.width > Constants.BrushWidthThreshold) ? 2 : 4
             
             var t: CGFloat = 0.0
             let step: CGFloat = 1.0 / CGFloat(numberOfSegments)
