@@ -14,7 +14,6 @@ public protocol DrawableViewDelegate: class {
 }
 
 private struct Constants {
-    static let BoxScaleFactor: CGFloat = 2.0
     static let PointsCountThreshold = 500
 }
 
@@ -47,6 +46,8 @@ public class DrawableView: UIView {
     fileprivate var previousStrokesImage: UIImage?
     fileprivate var nextImageCreationRequestId: ImageCreationRequestIdentifier = 0
     fileprivate var pendingImageCreationRequestId: ImageCreationRequestIdentifier?
+    
+    fileprivate var frameView: UIView?
     
     override public func touchesBegan( _ touches: Set<UITouch>, with event: UIEvent?) {
         delegate?.setDrawing(true)
@@ -141,11 +142,12 @@ extension DrawableView {
     }
     
     private func redrawLayerInBoundingBox(of stroke: Stroke) {
-        guard let firstPoint = stroke.points.first else { return }
+        let pointsToDraw = Array(stroke.points.suffix(3))
+        guard let firstPoint = pointsToDraw.first else { return }
         
         let subPath = CGMutablePath()
         var previousPoint = firstPoint
-        for point in stroke.points {
+        for point in pointsToDraw {
             subPath.move(to: previousPoint)
             subPath.addLine(to: point)
             previousPoint = point
@@ -153,10 +155,17 @@ extension DrawableView {
         
         var drawBox = subPath.boundingBox
         let brushWidth = stroke.brush.width
-        drawBox.origin.x -= brushWidth * Constants.BoxScaleFactor
-        drawBox.origin.y -= brushWidth * Constants.BoxScaleFactor
-        drawBox.size.width += brushWidth * Constants.BoxScaleFactor * 2
-        drawBox.size.height += brushWidth * Constants.BoxScaleFactor * 2
+        drawBox.origin.x -= brushWidth
+        drawBox.origin.y -= brushWidth
+        drawBox.size.width += brushWidth * 2
+        drawBox.size.height += brushWidth * 2
+        
+        frameView?.removeFromSuperview()
+        frameView = UIView(frame: drawBox)
+        frameView!.backgroundColor = .clear
+        frameView!.layer.borderColor = UIColor.black.cgColor
+        frameView!.layer.borderWidth = 2
+        addSubview(frameView!)
         
         layer.setNeedsDisplayIn(drawBox)
     }
