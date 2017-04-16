@@ -103,7 +103,6 @@ extension DrawableView {
             latestStrokes.addPointToLastStroke(point)
             
             let overThreshold = latestStrokes.transferrablePointCount >= Constants.PointsCountThreshold
-            
             // Check if number of points is over the threshold in which
             // we create a new "back buffer" image so that we
             // are only ever drawing a set maximum number of points per frame
