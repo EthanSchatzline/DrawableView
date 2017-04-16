@@ -24,7 +24,7 @@
 		2E5FDE3E1E9B2A6B00851B0B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E5FDE3C1E9B2A6B00851B0B /* LaunchScreen.storyboard */; };
 		2EC2A6F11E9B2BFA001CC1AC /* DrawableView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E5FDDAD1E9B1ED000851B0B /* DrawableView.framework */; };
 		2EC2A6F21E9B2BFA001CC1AC /* DrawableView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2E5FDDAD1E9B1ED000851B0B /* DrawableView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		2EF5FEAE1EA1E48B0091CD82 /* CGPoint+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5FEAD1EA1E48B0091CD82 /* CGPoint+Distance.swift */; };
+		2EF5FEAE1EA1E48B0091CD82 /* CGPoint+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5FEAD1EA1E48B0091CD82 /* CGPoint+Helpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,7 +76,7 @@
 		2E5FDE3A1E9B2A6B00851B0B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E5FDE3D1E9B2A6B00851B0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2E5FDE3F1E9B2A6B00851B0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2EF5FEAD1EA1E48B0091CD82 /* CGPoint+Distance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+Distance.swift"; sourceTree = "<group>"; };
+		2EF5FEAD1EA1E48B0091CD82 /* CGPoint+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+Helpers.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,7 +131,7 @@
 			children = (
 				2E5FDE191E9B223900851B0B /* DrawableView.swift */,
 				2E5FDE251E9B239600851B0B /* BrushAndStroke */,
-				2EF5FEAD1EA1E48B0091CD82 /* CGPoint+Distance.swift */,
+				2EF5FEAD1EA1E48B0091CD82 /* CGPoint+Helpers.swift */,
 				2E5FDDB01E9B1ED000851B0B /* DrawableView.h */,
 				2E5FDDB11E9B1ED000851B0B /* Info.plist */,
 			);
@@ -322,7 +322,7 @@
 				2E5FDE1A1E9B223900851B0B /* DrawableView.swift in Sources */,
 				2E5FDE201E9B237A00851B0B /* Stroke.swift in Sources */,
 				2E5FDE231E9B237F00851B0B /* Brush.swift in Sources */,
-				2EF5FEAE1EA1E48B0091CD82 /* CGPoint+Distance.swift in Sources */,
+				2EF5FEAE1EA1E48B0091CD82 /* CGPoint+Helpers.swift in Sources */,
 				2E5FDE1D1E9B237000851B0B /* StrokeCollection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
