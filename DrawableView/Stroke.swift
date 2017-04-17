@@ -34,7 +34,7 @@ class Stroke {
             let midPoint2Y = (current.y + prev1.y) * 0.5
             let midPoint2 = CGPoint(x: midPoint2X, y: midPoint2Y)
             
-            let numberOfSegments: Int = (brush.width > Constants.BrushWidthThreshold) ? 2 : 6
+            let numberOfSegments: Int = (brush.width > Constants.BrushWidthThreshold) ? 2 : 3
             
             var t: CGFloat = 0.0
             let step: CGFloat = 1.0 / CGFloat(numberOfSegments)
@@ -48,7 +48,7 @@ class Stroke {
             
             smoothPoints.append(midPoint2)
         }
-        //! we need to leave last 2 points for next draw
+        // We need to leave last 2 points for next draw
         points = Array(points.suffix(2))
         lastSmoothPoints = smoothPoints
         return smoothPoints

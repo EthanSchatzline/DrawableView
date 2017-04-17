@@ -54,7 +54,7 @@ public class DrawableView: UIView {
         delegate?.setDrawing(true)
         if let touch = touches.first {
             let point = touch.location(in: self)
-            let brush = Brush(strokeWidth: strokeWidth, strokeColor: strokeColor, strokeTransparency: strokeTransparency)
+            let brush = Brush(width: strokeWidth, color: strokeColor, transparency: strokeTransparency)
             strokes.newStroke(initialPoint: point, brush: brush)
             latestStrokes.newStroke(initialPoint: point, brush: brush)
         }
@@ -102,7 +102,6 @@ extension DrawableView {
             // Check if it is over the threshold and force a break in the current stroke
             let overThreshold = latestStrokes.transferrablePointCount >= Constants.PointsCountThreshold
             if !overThreshold {
-                // Add point to the stroke
                 strokes.addPointToLastStroke(point)
                 latestStrokes.addPointToLastStroke(point)
             }
