@@ -23,9 +23,9 @@ class Stroke {
         
         var smoothPoints: [CGPoint] = lastSmoothPoints ?? []
         for i in 2..<points.count {
-            let prev2 = points[i - 2]
-            let prev1 = points[i - 1]
-            let current = points[i]
+            guard let prev2 = points[safe: i - 2],
+                let prev1 = points[safe: i - 1],
+                let current = points[safe: i] else { continue }
             
             let midPoint1X = (prev1.x + prev2.x) * 0.5
             let midPoint1Y = (prev1.y + prev2.y) * 0.5
