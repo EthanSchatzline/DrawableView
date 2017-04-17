@@ -14,7 +14,6 @@ public protocol DrawableViewDelegate: class {
 }
 
 private struct Constants {
-    static let BoxScaleFactor: CGFloat = 2.0
     static let PointsCountThreshold = 500
 }
 
@@ -48,11 +47,16 @@ public class DrawableView: UIView {
     fileprivate var nextImageCreationRequestId: ImageCreationRequestIdentifier = 0
     fileprivate var pendingImageCreationRequestId: ImageCreationRequestIdentifier?
     
+    // Set to true to see the bounding box passed to `setNeedsDisplayIn(rect)` when drawing
+    fileprivate let isDebugMode: Bool = false
+    fileprivate var frameView: UIView?
+    fileprivate var undoWasTapped: Bool = false
+    
     override public func touchesBegan( _ touches: Set<UITouch>, with event: UIEvent?) {
         delegate?.setDrawing(true)
         if let touch = touches.first {
             let point = touch.location(in: self)
-            let brush = Brush(strokeWidth: strokeWidth, strokeColor: strokeColor, strokeTransparency: strokeTransparency)
+            let brush = Brush(width: strokeWidth, color: strokeColor, transparency: strokeTransparency)
             strokes.newStroke(initialPoint: point, brush: brush)
             latestStrokes.newStroke(initialPoint: point, brush: brush)
         }
@@ -69,22 +73,22 @@ public class DrawableView: UIView {
         if let touch = touches.first {
             drawFromTouch(touch)
         }
+        drawBackBuffer()
     }
 }
 
 // MARK: - Undo
 extension DrawableView {
     public func undo() {
+        undoWasTapped = true
         strokesWaitingForImage = nil
         pendingImageCreationRequestId = nil
-        
-        guard !strokes.isEmpty else { return }
         
         // Remove the last stroke
         strokes.removeLastStroke()
         latestStrokes.clear()
         
-        // Synchronously create an image from all of the strokes and set is as the "back buffer" image so
+        // Synchronously create an image from all of the strokes and set it as the "back buffer" image so
         // all drawing after this is drawn on top of it
         previousStrokesImage = createImage(from: strokes, size: bounds.size)
         layer.setNeedsDisplay()
@@ -96,60 +100,46 @@ extension DrawableView {
     fileprivate func drawFromTouch(_ touch: UITouch) {
         let point = touch.location(in: self)
         
-        if let previousPoint = strokes.lastPoint, let brush = strokes.lastBrush {
-            // Add point to the stroke
-            // Also check if it is over the threshold to trigger a UIImage request
-            strokes.addPointToLastStroke(point)
-            latestStrokes.addPointToLastStroke(point)
-            
+        if let lastStroke = strokes.lastStroke {
+            // Check if it is over the threshold and force a break in the current stroke
             let overThreshold = latestStrokes.transferrablePointCount >= Constants.PointsCountThreshold
-            // Check if number of points is over the threshold in which
-            // we create a new "back buffer" image so that we
-            // are only ever drawing a set maximum number of points per frame
-            if overThreshold {
-                // Over the threshold. Figure out which points to create an image out of
-                // Since the image request function below is asynchronous,
-                // it is possible that it may take longer to create the image than it takes
-                // for the user to input the "threshold" number of points again.
-                // ASSUMPTION: The threshold count is much larger than the time it takes
-                // to create an image for all devices
-                let strokesToMakeImage = latestStrokes.splitInTwo(numPoints: latestStrokes.transferrablePointCount)
-                let requestID = nextImageCreationRequestId
-                
-                // Create a callback that clears appropriate data and updates the "back buffer image"
-                let imageCreationBlock: CreationCallback = { response in
-                    DispatchQueue.main.async {
-                        // Check if the request coming back is the latest one we care about
-                        if requestID == response.requestID {
-                            // Clear out the "strokes waiting for image" and "pending request ID"
-                            self.strokesWaitingForImage = nil
-                            self.pendingImageCreationRequestId = nil
-                            self.previousStrokesImage = response.image
-                        }
-                    }
-                }
-                
-                pendingImageCreationRequestId = requestID
-                strokesWaitingForImage = strokesToMakeImage
-                nextImageCreationRequestId += 1
-                
-                createImageAsynchronously(from: strokesToMakeImage, image: previousStrokesImage, size: bounds.size, requestID: requestID, callback: imageCreationBlock)
+            if !overThreshold {
+                strokes.addPointToLastStroke(point)
+                latestStrokes.addPointToLastStroke(point)
             }
             
-            redrawLayerInBoundingBoxOfLastLine(previousPoint: previousPoint, point: point, brushWidth: brush.width)
+            redrawLayerInBoundingBox(of: lastStroke)
         }
     }
     
-    private func redrawLayerInBoundingBoxOfLastLine(previousPoint: CGPoint, point: CGPoint, brushWidth: CGFloat) {
+    private func redrawLayerInBoundingBox(of stroke: Stroke) {
+        let pointsToDraw = Array(stroke.points.suffix(3))
+        guard let firstPoint = pointsToDraw.first else { return }
+        
         let subPath = CGMutablePath()
-        subPath.move(to: previousPoint)
-        subPath.addLine(to: point)
+        var previousPoint = firstPoint
+        for point in pointsToDraw {
+            subPath.move(to: previousPoint)
+            subPath.addLine(to: point)
+            previousPoint = point
+        }
         
         var drawBox = subPath.boundingBox
-        drawBox.origin.x -= brushWidth * Constants.BoxScaleFactor
-        drawBox.origin.y -= brushWidth * Constants.BoxScaleFactor
-        drawBox.size.width += brushWidth * Constants.BoxScaleFactor * 2
-        drawBox.size.height += brushWidth * Constants.BoxScaleFactor * 2
+        let brushWidth = stroke.brush.width
+        drawBox.origin.x -= brushWidth * 0.5
+        drawBox.origin.y -= brushWidth * 0.5
+        drawBox.size.width += brushWidth
+        drawBox.size.height += brushWidth
+        
+        if isDebugMode {
+            frameView?.removeFromSuperview()
+            let newFrameView = UIView(frame: drawBox)
+            frameView = newFrameView
+            newFrameView.backgroundColor = .clear
+            newFrameView.layer.borderColor = UIColor.black.cgColor
+            newFrameView.layer.borderWidth = 2
+            addSubview(newFrameView)
+        }
         
         layer.setNeedsDisplayIn(drawBox)
     }
@@ -163,6 +153,35 @@ extension DrawableView {
         
         strokesWaitingForImage?.draw(in: ctx)
         latestStrokes.draw(in: ctx)
+    }
+    
+    fileprivate func drawBackBuffer() {
+        undoWasTapped = false
+        let strokesToMakeImage = latestStrokes.splitInTwo(numPoints: latestStrokes.transferrablePointCount)
+        let requestID = nextImageCreationRequestId
+        
+        // Create a callback that clears appropriate data and updates the "back buffer image"
+        let imageCreationBlock: CreationCallback = { response in
+            DispatchQueue.main.async {
+                if self.undoWasTapped {
+                    self.drawBackBuffer()
+                    return
+                }
+                // Check if the request coming back is the latest one we care about
+                if requestID == response.requestID {
+                    // Clear out the "strokes waiting for image" and "pending request ID"
+                    self.strokesWaitingForImage = nil
+                    self.pendingImageCreationRequestId = nil
+                    self.previousStrokesImage = response.image
+                }
+            }
+        }
+        
+        pendingImageCreationRequestId = requestID
+        strokesWaitingForImage = strokesToMakeImage
+        nextImageCreationRequestId += 1
+        
+        createImageAsynchronously(from: strokesToMakeImage, image: previousStrokesImage, size: bounds.size, requestID: requestID, callback: imageCreationBlock)
     }
     
     fileprivate func drawImageFlipped(image: CGImage, in context: CGContext) {

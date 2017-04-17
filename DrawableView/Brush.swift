@@ -8,15 +8,8 @@
 
 import UIKit
 
-class Brush {
-    
+struct Brush {
     let width: CGFloat
     let color: UIColor
     let transparency: CGFloat
-    
-    init(strokeWidth: CGFloat, strokeColor: UIColor, strokeTransparency: CGFloat) {
-        self.width = strokeWidth
-        self.color = strokeColor
-        self.transparency = strokeTransparency
-    }
 }

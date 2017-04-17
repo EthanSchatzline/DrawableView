@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E28B3FB1EA462D20055B953 /* Array+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E28B3FA1EA462D20055B953 /* Array+Helpers.swift */; };
 		2E5FDDB71E9B1ED000851B0B /* DrawableView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E5FDDAD1E9B1ED000851B0B /* DrawableView.framework */; };
 		2E5FDDBC1E9B1ED000851B0B /* DrawableViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5FDDBB1E9B1ED000851B0B /* DrawableViewTests.swift */; };
 		2E5FDDBE1E9B1ED000851B0B /* DrawableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E5FDDB01E9B1ED000851B0B /* DrawableView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -24,7 +25,7 @@
 		2E5FDE3E1E9B2A6B00851B0B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E5FDE3C1E9B2A6B00851B0B /* LaunchScreen.storyboard */; };
 		2EC2A6F11E9B2BFA001CC1AC /* DrawableView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E5FDDAD1E9B1ED000851B0B /* DrawableView.framework */; };
 		2EC2A6F21E9B2BFA001CC1AC /* DrawableView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2E5FDDAD1E9B1ED000851B0B /* DrawableView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		2EF5FEAE1EA1E48B0091CD82 /* CGPoint+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5FEAD1EA1E48B0091CD82 /* CGPoint+Distance.swift */; };
+		2EF5FEAE1EA1E48B0091CD82 /* CGPoint+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5FEAD1EA1E48B0091CD82 /* CGPoint+Helpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2E28B3FA1EA462D20055B953 /* Array+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Helpers.swift"; sourceTree = "<group>"; };
 		2E5FDDAD1E9B1ED000851B0B /* DrawableView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DrawableView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E5FDDB01E9B1ED000851B0B /* DrawableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DrawableView.h; sourceTree = "<group>"; };
 		2E5FDDB11E9B1ED000851B0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -76,7 +78,7 @@
 		2E5FDE3A1E9B2A6B00851B0B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E5FDE3D1E9B2A6B00851B0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2E5FDE3F1E9B2A6B00851B0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2EF5FEAD1EA1E48B0091CD82 /* CGPoint+Distance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+Distance.swift"; sourceTree = "<group>"; };
+		2EF5FEAD1EA1E48B0091CD82 /* CGPoint+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+Helpers.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E28B3F91EA462C10055B953 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2EF5FEAD1EA1E48B0091CD82 /* CGPoint+Helpers.swift */,
+				2E28B3FA1EA462D20055B953 /* Array+Helpers.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		2E5FDDA31E9B1ED000851B0B = {
 			isa = PBXGroup;
 			children = (
@@ -131,7 +142,7 @@
 			children = (
 				2E5FDE191E9B223900851B0B /* DrawableView.swift */,
 				2E5FDE251E9B239600851B0B /* BrushAndStroke */,
-				2EF5FEAD1EA1E48B0091CD82 /* CGPoint+Distance.swift */,
+				2E28B3F91EA462C10055B953 /* Extensions */,
 				2E5FDDB01E9B1ED000851B0B /* DrawableView.h */,
 				2E5FDDB11E9B1ED000851B0B /* Info.plist */,
 			);
@@ -320,9 +331,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E5FDE1A1E9B223900851B0B /* DrawableView.swift in Sources */,
+				2E28B3FB1EA462D20055B953 /* Array+Helpers.swift in Sources */,
 				2E5FDE201E9B237A00851B0B /* Stroke.swift in Sources */,
 				2E5FDE231E9B237F00851B0B /* Brush.swift in Sources */,
-				2EF5FEAE1EA1E48B0091CD82 /* CGPoint+Distance.swift in Sources */,
+				2EF5FEAE1EA1E48B0091CD82 /* CGPoint+Helpers.swift in Sources */,
 				2E5FDE1D1E9B237000851B0B /* StrokeCollection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
