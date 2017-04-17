@@ -218,3 +218,14 @@ extension DrawableView {
         }
     }
 }
+
+// returns image
+extension DrawableView
+{
+    public func getImage() -> UIImage?
+    {
+        return createImage(from: strokes, size: bounds.size)
+    }
+}
+
+
