@@ -48,7 +48,7 @@ public class DrawableView: UIView {
     fileprivate var pendingImageCreationRequestId: ImageCreationRequestIdentifier?
     
     fileprivate var frameView: UIView?
-    fileprivate var undoWasTappedWhileDrawingBackBuffer: Bool = false
+    fileprivate var undoWasTapped: Bool = false
     
     override public func touchesBegan( _ touches: Set<UITouch>, with event: UIEvent?) {
         delegate?.setDrawing(true)
@@ -78,7 +78,7 @@ public class DrawableView: UIView {
 // MARK: - Undo
 extension DrawableView {
     public func undo() {
-        undoWasTappedWhileDrawingBackBuffer = true
+        undoWasTapped = true
         strokesWaitingForImage = nil
         pendingImageCreationRequestId = nil
         
@@ -152,14 +152,14 @@ extension DrawableView {
     }
     
     fileprivate func drawBackBuffer() {
-        undoWasTappedWhileDrawingBackBuffer = false
+        undoWasTapped = false
         let strokesToMakeImage = latestStrokes.splitInTwo(numPoints: latestStrokes.transferrablePointCount)
         let requestID = nextImageCreationRequestId
         
         // Create a callback that clears appropriate data and updates the "back buffer image"
         let imageCreationBlock: CreationCallback = { response in
             DispatchQueue.main.async {
-                if self.undoWasTappedWhileDrawingBackBuffer {
+                if self.undoWasTapped {
                     self.drawBackBuffer()
                     return
                 }
