@@ -19,6 +19,7 @@ Add a DrawableView to your app and you will immediately be able to draw on it. T
 - [x] Stroke Transparency
 - [x] Undo
 - [x] DrawableViewDelegate
+- [x] Quad Curve Interpolation
 
 ## Requirements
 
