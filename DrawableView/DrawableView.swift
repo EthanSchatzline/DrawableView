@@ -86,7 +86,7 @@ extension DrawableView {
         strokes.removeLastStroke()
         latestStrokes.clear()
         
-        // Synchronously create an image from all of the strokes and set is as the "back buffer" image so
+        // Synchronously create an image from all of the strokes and set it as the "back buffer" image so
         // all drawing after this is drawn on top of it
         previousStrokesImage = createImage(from: strokes, size: bounds.size)
         layer.setNeedsDisplay()
