@@ -47,6 +47,8 @@ public class DrawableView: UIView {
     fileprivate var nextImageCreationRequestId: ImageCreationRequestIdentifier = 0
     fileprivate var pendingImageCreationRequestId: ImageCreationRequestIdentifier?
     
+    // Set to true to see the bounding box passed to `setNeedsDisplayIn(rect)` when drawing
+    fileprivate let isDebugMode: Bool = false
     fileprivate var frameView: UIView?
     fileprivate var undoWasTapped: Bool = false
     
@@ -124,17 +126,20 @@ extension DrawableView {
         
         var drawBox = subPath.boundingBox
         let brushWidth = stroke.brush.width
-        drawBox.origin.x -= brushWidth
-        drawBox.origin.y -= brushWidth
-        drawBox.size.width += brushWidth * 2
-        drawBox.size.height += brushWidth * 2
+        drawBox.origin.x -= brushWidth * 0.5
+        drawBox.origin.y -= brushWidth * 0.5
+        drawBox.size.width += brushWidth
+        drawBox.size.height += brushWidth
         
-        frameView?.removeFromSuperview()
-        frameView = UIView(frame: drawBox)
-        frameView!.backgroundColor = .clear
-        frameView!.layer.borderColor = UIColor.black.cgColor
-        frameView!.layer.borderWidth = 2
-        addSubview(frameView!)
+        if isDebugMode {
+            frameView?.removeFromSuperview()
+            let newFrameView = UIView(frame: drawBox)
+            frameView = newFrameView
+            newFrameView.backgroundColor = .clear
+            newFrameView.layer.borderColor = UIColor.black.cgColor
+            newFrameView.layer.borderWidth = 2
+            addSubview(newFrameView)
+        }
         
         layer.setNeedsDisplayIn(drawBox)
     }
