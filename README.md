@@ -68,6 +68,11 @@ class ViewController: UIViewController, DrawableViewDelegate {
         Commonly people hide the drawing tools UI while the user is drawing and fade it back in once they stop.
         */
     }
+
+    func saveDrawingToPhotoLibrary() {
+      guard let drawnImage = drawableView.image else { return }
+      UIImageWriteToSavedPhotosAlbum(drawnImage, self, nil, nil)
+    }
 }
 ```
 
