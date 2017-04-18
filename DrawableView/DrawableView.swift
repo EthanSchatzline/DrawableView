@@ -9,7 +9,12 @@
 import UIKit
 
 public protocol DrawableViewDelegate: class {
-    // Lets the delegate know that the user has begun or ended drawing
+    /// Lets the delegate know that the user has begun or ended drawing.
+    ///
+    /// - Parameters:
+    ///     - isDrawing: A boolean representing if the user began or ended drawing.
+    ///
+    /// - Returns: Void
     func setDrawing(_ isDrawing: Bool)
 }
 
@@ -29,9 +34,17 @@ public class DrawableView: UIView {
     
     // MARK: - Public Properties
     public weak var delegate: DrawableViewDelegate?
+    
+    /// A boolean representing if the DrawableView currently contains a drawing.
+    ///
+    /// - Returns: Bool
     public var containsDrawing: Bool {
         return !strokes.isEmpty
     }
+    
+    /// An optional UIImage of the current drawing.
+    ///
+    /// - Returns: UIImage?
     public var image: UIImage? {
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
         drawHierarchy(in: bounds, afterScreenUpdates: true)
@@ -40,8 +53,19 @@ public class DrawableView: UIView {
         return image
     }
     
+    /// The width of the current brush.
+    ///
+    /// - Returns: CGFloat
     public var strokeWidth: CGFloat = 4.0
+    
+    /// The color of the current brush.
+    ///
+    /// - Returns: UIColor
     public var strokeColor: UIColor = .red
+    
+    /// The transparency of the current brush.
+    ///
+    /// - Returns: CGFloat
     public var strokeTransparency: CGFloat = 1.0
     
     // MARK: - Private Properties
@@ -84,8 +108,11 @@ public class DrawableView: UIView {
 }
 
 // MARK: - Undo
-extension DrawableView {
-    public func undo() {
+public extension DrawableView {
+    /// Removes the last stroke and re-draws to the screen.
+    ///
+    /// - Returns: Void
+    func undo() {
         undoWasTapped = true
         strokesWaitingForImage = nil
         pendingImageCreationRequestId = nil
