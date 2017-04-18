@@ -29,9 +29,15 @@ public class DrawableView: UIView {
     
     // MARK: - Public Properties
     public weak var delegate: DrawableViewDelegate?
-    
     public var containsDrawing: Bool {
         return !strokes.isEmpty
+    }
+    public var image: UIImage? {
+        UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
+        drawHierarchy(in: bounds, afterScreenUpdates: true)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
     }
     
     public var strokeWidth: CGFloat = 4.0
