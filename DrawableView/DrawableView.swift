@@ -36,15 +36,11 @@ public class DrawableView: UIView {
     public weak var delegate: DrawableViewDelegate?
     
     /// A boolean representing if the DrawableView currently contains a drawing.
-    ///
-    /// - Returns: Bool
     public var containsDrawing: Bool {
         return !strokes.isEmpty
     }
     
     /// An optional UIImage of the current drawing.
-    ///
-    /// - Returns: UIImage?
     public var image: UIImage? {
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
         drawHierarchy(in: bounds, afterScreenUpdates: true)
@@ -54,18 +50,12 @@ public class DrawableView: UIView {
     }
     
     /// The width of the current brush.
-    ///
-    /// - Returns: CGFloat
     public var strokeWidth: CGFloat = 4.0
     
     /// The color of the current brush.
-    ///
-    /// - Returns: UIColor
     public var strokeColor: UIColor = .red
     
     /// The transparency of the current brush.
-    ///
-    /// - Returns: CGFloat
     public var strokeTransparency: CGFloat = 1.0
     
     // MARK: - Private Properties
