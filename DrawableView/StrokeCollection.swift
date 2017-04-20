@@ -45,12 +45,19 @@ class StrokeCollection {
         totalPointCount += stroke.points.count
     }
     
-    func addPointToLastStroke(_ point: CGPoint) {
-        if let previousPoint = strokes.last?.points.last {
+    func addPoint(_ point: CGPoint) {
+        guard let lastStroke = lastStroke else { return }
+        
+        if let previousPoint = lastStroke.points.last {
             let threshold: CGFloat = 1.5
             if previousPoint.distance(to: point) <= threshold { return }
         }
-        strokes.last?.points.append(point)
+        
+        addPointToLastStroke(point, stroke: lastStroke)
+    }
+    
+    fileprivate func addPointToLastStroke(_ point: CGPoint, stroke: Stroke) {
+        stroke.points.append(point)
         totalPointCount += 1
     }
     
@@ -133,7 +140,7 @@ class LatestStrokeCollection: StrokeCollection {
     private(set) var transferrablePointCount: Int = 0
     
     private var pointsOfLastStrokeAreTransferrable: Bool {
-        return (lastBrush?.transparency ?? 1.0) >= 1.0
+        return (lastBrush?.transparency ?? 0.0) >= 1.0
     }
     
     override func newStroke(initialPoint: CGPoint, brush: Brush) {
@@ -149,8 +156,8 @@ class LatestStrokeCollection: StrokeCollection {
         transferrablePointCount += newTransferrablePoints
     }
     
-    override func addPointToLastStroke(_ point: CGPoint) {
-        super.addPointToLastStroke(point)
+    override fileprivate func addPointToLastStroke(_ point: CGPoint, stroke: Stroke) {
+        super.addPointToLastStroke(point, stroke: stroke)
         
         // See if need to include the this point in "transferrable points"
         // Include if the brush's transparency >= 1.0
@@ -158,15 +165,19 @@ class LatestStrokeCollection: StrokeCollection {
     }
     
     override func removeLastStroke() {
-        let lastStrokesPointsWereTransferrable = pointsOfLastStrokeAreTransferrable
+        transferrablePointCount -= (pointsOfLastStrokeAreTransferrable ? lastStrokePointCount : 0)
         super.removeLastStroke()
         
-        transferrablePointCount -= (lastStrokesPointsWereTransferrable ? lastStrokePointCount : 0)
         // Also, since there is a new "last stroke", need to check
         // if the points for the new "last stroke" are transferrable or not.
-        // If they are not transferrable, then they were include in the transferrablePointCount
+        // If they are not transferrable, then they were included in the transferrablePointCount
         // when they were not the "last stroke", so, adjust count for that
         transferrablePointCount -= (!pointsOfLastStrokeAreTransferrable ? lastStrokePointCount : 0)
+    }
+    
+    override func clear() {
+        super.clear()
+        transferrablePointCount = 0
     }
     
     override func splitInTwo(numPoints: Int) -> StrokeCollection {
@@ -180,10 +191,5 @@ class LatestStrokeCollection: StrokeCollection {
         
         transferrablePointCount += (pointsOfLastStrokeAreTransferrable ? lastStrokePointCount : 0)
         return newCollection
-    }
-    
-    override func clear() {
-        super.clear()
-        transferrablePointCount = 0
     }
 }

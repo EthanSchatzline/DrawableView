@@ -13,3 +13,11 @@ struct Brush {
     let color: UIColor
     let transparency: CGFloat
 }
+
+extension Brush: Equatable {}
+func ==(lhs: Brush, rhs: Brush) -> Bool {
+    let widthEqual = (lhs.width == rhs.width)
+    let colorEqual = (lhs.color == rhs.color)
+    let transparencyEqual = (lhs.transparency == rhs.transparency)
+    return widthEqual && colorEqual && transparencyEqual
+}

@@ -127,8 +127,8 @@ extension DrawableView {
             // Check if it is over the threshold and force a break in the current stroke
             let overThreshold = latestStrokes.transferrablePointCount >= Constants.PointsCountThreshold
             if !overThreshold {
-                strokes.addPointToLastStroke(point)
-                latestStrokes.addPointToLastStroke(point)
+                strokes.addPoint(point)
+                latestStrokes.addPoint(point)
             }
             
             redrawLayerInBoundingBox(of: lastStroke)

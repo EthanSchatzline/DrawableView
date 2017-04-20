@@ -1,5 +1,5 @@
 //
-//  DrawableViewTests.swift
+//  StrokeTests.swift
 //  DrawableView
 //
 //  Created by Ethan Schatzline on 4/19/17.
@@ -8,7 +8,7 @@
 
 import XCTest
 
-class DrawableViewTests: XCTestCase {
+class StrokeTests: XCTestCase {
     
     let blackBrush: Brush = Brush(width: 2.0, color: .black, transparency: 1.0)
     
@@ -24,6 +24,6 @@ class DrawableViewTests: XCTestCase {
     
     // TODO
     func testExample() {
-         XCTAssertTrue(true)
+        XCTAssertTrue(true)
     }
 }

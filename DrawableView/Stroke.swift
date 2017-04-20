@@ -78,3 +78,11 @@ class Stroke {
         ctx.strokePath()
     }
 }
+
+extension Stroke: Equatable {}
+func ==(lhs: Stroke, rhs: Stroke) -> Bool {
+    let brushesEqual = (lhs.brush == rhs.brush)
+    let pointsEqual = (lhs.points == rhs.points)
+    let smoothPointsEqual = (lhs.smoothPoints == rhs.smoothPoints)
+    return brushesEqual && pointsEqual && smoothPointsEqual
+}
