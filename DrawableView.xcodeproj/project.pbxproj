@@ -30,6 +30,7 @@
 		2EBCA9C21EA88D5700DD1789 /* StrokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBCA9C11EA88D5700DD1789 /* StrokeTests.swift */; };
 		2EC2A6F11E9B2BFA001CC1AC /* DrawableView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E5FDDAD1E9B1ED000851B0B /* DrawableView.framework */; };
 		2EC2A6F21E9B2BFA001CC1AC /* DrawableView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2E5FDDAD1E9B1ED000851B0B /* DrawableView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2EC8C3B31EAC498E00339859 /* DrawableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5FDE191E9B223900851B0B /* DrawableView.swift */; };
 		2EF5FEAE1EA1E48B0091CD82 /* CGPoint+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5FEAD1EA1E48B0091CD82 /* CGPoint+Helpers.swift */; };
 /* End PBXBuildFile section */
 
@@ -356,6 +357,7 @@
 			files = (
 				2E43F2F91EA70F2600709E63 /* StrokeCollection.swift in Sources */,
 				2E43F2F81EA70DF100709E63 /* StrokeCollectionTests.swift in Sources */,
+				2EC8C3B31EAC498E00339859 /* DrawableView.swift in Sources */,
 				2EBCA9C21EA88D5700DD1789 /* StrokeTests.swift in Sources */,
 				2EBCA9C01EA88D3E00DD1789 /* DrawableViewTests.swift in Sources */,
 				2E43F2FB1EA70F3400709E63 /* Array+Helpers.swift in Sources */,

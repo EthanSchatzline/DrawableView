@@ -10,20 +10,18 @@ import XCTest
 
 class DrawableViewTests: XCTestCase {
     
+    var drawableView: DrawableView!
     let blackBrush: Brush = Brush(width: 2.0, color: .black, transparency: 1.0)
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        drawableView = DrawableView()
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
-    // TODO
-    func testExample() {
-         XCTAssertTrue(true)
-    }
+    // Nothing to test in DrawableView yet
 }
