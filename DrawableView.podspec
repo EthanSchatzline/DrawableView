@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = 'DrawableView'
-  s.version      = '0.0.2'
+  s.version      = '0.0.3'
   s.summary      = 'A UIView subclass that allows the user to draw on it.'
   s.homepage     = 'https://github.com/EthanSchatzline/DrawableView'
   s.license      = { type: 'MIT', file: 'LICENSE' }
