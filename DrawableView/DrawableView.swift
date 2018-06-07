@@ -164,7 +164,7 @@ extension DrawableView {
             addSubview(newFrameView)
         }
         
-        layer.setNeedsDisplayIn(drawBox)
+        layer.setNeedsDisplay(drawBox)
     }
     
     override public func draw(_ layer: CALayer, in ctx: CGContext) {
