@@ -1,5 +1,5 @@
 # DrawableView
-> A UIView subclass that allows the user to draw on it.
+## A UIView subclass that allows the user to draw on it.
 
 [![Swift Version][swift-image]][swift-url]
 [![License][license-image]][license-url]
