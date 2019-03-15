@@ -116,6 +116,21 @@ public extension DrawableView {
         previousStrokesImage = createImage(from: strokes, size: bounds.size)
         layer.setNeedsDisplay()
     }
+    
+    func clear() {
+        undoWasTapped = false
+        strokesWaitingForImage = nil
+        pendingImageCreationRequestId = nil
+        
+        // Remove all strokes
+        strokes.clear()
+        latestStrokes.clear()
+        
+        // Synchronously create an image from all of the strokes and set it as the "back buffer" image so
+        // all drawing after this is drawn on top of it
+        previousStrokesImage = createImage(from: strokes, size: bounds.size)
+        layer.setNeedsDisplay()
+    }
 }
 
 // MARK: - Drawing
@@ -164,7 +179,7 @@ extension DrawableView {
             addSubview(newFrameView)
         }
         
-        layer.setNeedsDisplayIn(drawBox)
+        layer.setNeedsDisplay(drawBox)
     }
     
     override public func draw(_ layer: CALayer, in ctx: CGContext) {
