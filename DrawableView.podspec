@@ -11,5 +11,6 @@ Pod::Spec.new do |s|
   s.source       = { :git => 'https://github.com/EthanSchatzline/DrawableView.git', :tag => s.version.to_s }
   s.source_files  = 'DrawableView/*.swift'
   s.frameworks  = 'UIKit'
+  s.swift_version = '4.0'
 
 end
