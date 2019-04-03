@@ -82,7 +82,7 @@ We would love for you to contribute to **DrawableView**, check the ``LICENSE`` f
 
 ## Meta
 
-Ethan Schatzline – [@_Easy_E](https://twitter.com/_easy_e) – Ethan@EthanSchatzline.me
+Ethan Schatzline – [@_Easy_E](https://twitter.com/_easy_e) – ethanschatzline@gmail.com
 
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
